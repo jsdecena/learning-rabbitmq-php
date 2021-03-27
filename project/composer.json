@@ -1,0 +1,14 @@
+{
+    "name": "jsdecena/rabbitmq",
+    "description": "Proof of Concept for RMQ in PHP",
+    "type": "project",
+    "require": {
+        "php-amqplib/php-amqplib": "2.9"
+    },
+    "authors": [
+        {
+            "name": "Jeff",
+            "email": "jeff.decena@yahoo.com"
+        }
+    ]
+}
