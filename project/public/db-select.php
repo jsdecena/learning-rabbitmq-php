@@ -9,6 +9,12 @@ while ($row = $inventoryItems->fetchArray()) {
     $inventories[] = $row;
 }
 
+$total = $sqlite->query('SELECT SUM(count) AS total FROM inventory_items');
+$totals = [];
+while ($row = $total->fetchArray()) {
+    $totals['total'] = $row['total'];
+}
+
 $delivery = $sqlite->query('SELECT * FROM deliveries');
 
 $deliveries = [];
@@ -54,6 +60,13 @@ while ($row = $sale->fetchArray()) {
                         </tr>
                     <?php } ?>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total</td>
+                            <td></td>
+                            <td><?php echo $totals['total']  ?></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </section>
