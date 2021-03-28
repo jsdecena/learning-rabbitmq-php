@@ -5,7 +5,8 @@ $sqlite = new SQLite3('../database/db.sqlite');
 $inventoryTable = '
     CREATE TABLE IF NOT EXISTS inventory_items (
         id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL
+        name TEXT NOT NULL,
+        count INTEGER NOT NULL
     );
 ';
 
@@ -14,7 +15,8 @@ $sqlite->exec($inventoryTable);
 $saleTable = '
     CREATE TABLE IF NOT EXISTS sale (
         id INTEGER PRIMARY KEY,
-        item_name TEXT NOT NULL
+        item_name TEXT NOT NULL,
+        qty INTEGER NOT NULL
     );
 ';
 
@@ -23,7 +25,8 @@ $sqlite->exec($saleTable);
 $deliveries = '
     CREATE TABLE IF NOT EXISTS deliveries (
         id INTEGER PRIMARY KEY,
-        item_name TEXT NOT NULL
+        item_name TEXT NOT NULL,
+        qty INTEGER NOT NULL
     );
 ';
 
