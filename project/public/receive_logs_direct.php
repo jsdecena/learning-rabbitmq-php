@@ -7,16 +7,24 @@ use PhpAmqpLib\Message\AMQPMessage;
 $connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
 $channel = $connection->channel();
 
-$channel->exchange_declare('logs', 'fanout', false, false, false);
+$channel->exchange_declare('direct_logs', 'direct', false, false, false);
 
 list($queue_name, ,) = $channel->queue_declare("", false, false, true, false);
 
-$channel->queue_bind($queue_name, 'logs');
+$severities = array_slice($argv, 1);
+if (empty($severities)) {
+    file_put_contents('php://stderr', "Usage: $argv[0] [info] [warning] [error]\n");
+    exit(1);
+}
+
+foreach ($severities as $severity) {
+    $channel->queue_bind($queue_name, 'direct_logs', $severity);
+}
 
 echo " [*] Waiting for logs. To exit press CTRL+C\n";
 
 $callback = function ($msg) {
-    echo ' [x] ', $msg->body, "\n";
+    echo ' [x] ', $msg->delivery_info['routing_key'], ':', $msg->body, "\n";
 };
 
 $channel->basic_consume($queue_name, '', false, true, false, false, $callback);
