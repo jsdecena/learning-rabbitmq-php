@@ -23,9 +23,10 @@ $callback = function ($msg) {
     if ($inventory['type'] == 'down') {
         $inventory['qty'] = '-' . $inventory['qty'];
     }
+    // Update inventory
     $sqlite->query("INSERT INTO inventory_items (id, name, count) VALUES (". rand(999, 999999).", 'iPhone12', ". $inventory['qty'] .")");
 
-    echo "Updated inventory";
+    echo "\n Updated inventory";
 };
 
 $channel->basic_consume($queue_name, '', false, true, false, false, $callback);
